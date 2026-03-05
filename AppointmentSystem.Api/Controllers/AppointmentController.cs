@@ -35,5 +35,31 @@ namespace AppointmentSystem.Api.Controllers
             var appointments = await _appointmentService.GetAllAsync(cancellationToken);
             return Ok(appointments);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAppointment(int id, AppointmentDto dto, CancellationToken cancellationToken)
+        {
+            if (id != dto.Id)
+            {
+                return BadRequest("ID mismatch");
+            }
+            try
+            {
+                await _appointmentService.UpdateAsync(dto, cancellationToken);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAppointment(int id, CancellationToken cancellationToken)
+        {
+            await _appointmentService.DeleteAsync(id, cancellationToken);
+            return NoContent();
+        }
     }
+    
 }

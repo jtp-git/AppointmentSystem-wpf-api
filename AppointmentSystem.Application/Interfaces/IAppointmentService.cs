@@ -11,5 +11,8 @@ namespace AppointmentSystem.Application.Interfaces
     {
         Task<AppointmentDto> CreateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken);
         Task<List<AppointmentDto>> GetAllAsync(CancellationToken cancellationToken);
+        Task<AppointmentDto> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task UpdateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken);
+        Task DeleteAsync(int id, CancellationToken cancellationToken);
     }
 }

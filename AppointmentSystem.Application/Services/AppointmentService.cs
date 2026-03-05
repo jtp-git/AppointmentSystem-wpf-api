@@ -29,5 +29,19 @@ namespace AppointmentSystem.Application.Services
             var appointments = await _appointmentRepository.GetAllAysnc(cancellationToken);
             return appointments.Select(AppointmentMapper.toDto).ToList();
         }
+        public async Task<AppointmentDto> GetByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            var appointment = await _appointmentRepository.GetByIdAsync(id, cancellationToken);
+            return AppointmentMapper.toDto(appointment);
+        }
+        public async Task UpdateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken)
+        {
+            var appointment = AppointmentMapper.toEntity(appointmentDto);
+            await _appointmentRepository.UpdateAsync(appointment, cancellationToken);
+        }
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            await _appointmentRepository.DeleteAsync(id, cancellationToken);
+        }
     }
 }

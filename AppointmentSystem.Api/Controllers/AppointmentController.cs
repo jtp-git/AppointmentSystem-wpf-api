@@ -28,5 +28,12 @@ namespace AppointmentSystem.Api.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAppointments(CancellationToken cancellationToken)
+        {
+            var appointments = await _appointmentService.GetAllAsync(cancellationToken);
+            return Ok(appointments);
+        }
     }
 }

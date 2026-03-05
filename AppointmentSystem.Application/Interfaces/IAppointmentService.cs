@@ -10,5 +10,6 @@ namespace AppointmentSystem.Application.Interfaces
     public interface IAppointmentService
     {
         Task<AppointmentDto> CreateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken);
+        Task<List<AppointmentDto>> GetAllAsync(CancellationToken cancellationToken);
     }
 }

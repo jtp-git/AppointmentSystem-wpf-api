@@ -23,5 +23,11 @@ namespace AppointmentSystem.Application.Services
             await _appointmentRepository.AddAsync(appointment, cancellationToken);
             return AppointmentMapper.toDto(appointment);
         }
+
+        public async Task<List<AppointmentDto>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            var appointments = await _appointmentRepository.GetAllAysnc(cancellationToken);
+            return appointments.Select(AppointmentMapper.toDto).ToList();
+        }
     }
 }

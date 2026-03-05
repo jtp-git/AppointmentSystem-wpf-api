@@ -1,6 +1,7 @@
 ﻿using AppointmentSystem.Application.Interfaces;
 using AppointmentSystem.Domain.Entities;
 using AppointmentSystem.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,11 @@ namespace AppointmentSystem.Infrastructure.Repositories
         {
             _appDbContext.Appointments.Add(appointment);
             await _appDbContext.SaveChangesAsync(cancellationToken);
+        }
+        public async Task<List<Appointment>> GetAllAysnc(CancellationToken cancellationToken)
+        {
+            return await _appDbContext.Appointments.ToListAsync(cancellationToken);
+
         }
     }
 }

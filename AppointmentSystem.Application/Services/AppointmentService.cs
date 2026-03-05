@@ -41,6 +41,13 @@ namespace AppointmentSystem.Application.Services
             var appointment = AppointmentMapper.toEntity(appointmentDto);
             if (appointment == null)
                 throw new Exception($"Appointment with ID {appointmentDto.Id} not found.");
+            appointment.Update(
+                appointmentDto.Patient, 
+                appointmentDto.StartTime, 
+                appointmentDto.EndTime, 
+                appointmentDto.Notes
+                );
+
             await _appointmentRepository.UpdateAsync(appointment, cancellationToken);
         }
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)

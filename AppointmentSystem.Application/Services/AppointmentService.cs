@@ -38,17 +38,17 @@ namespace AppointmentSystem.Application.Services
         }
         public async Task UpdateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken)
         {
-            var appointment = AppointmentMapper.toEntity(appointmentDto);
-            if (appointment == null)
+            var existingAppointment = await _appointmentRepository.GetByIdAsync(appointmentDto.Id, cancellationToken);
+            if (existingAppointment == null)
                 throw new Exception($"Appointment with ID {appointmentDto.Id} not found.");
-            appointment.Update(
+            existingAppointment.Update(
                 appointmentDto.Patient, 
                 appointmentDto.StartTime, 
                 appointmentDto.EndTime, 
                 appointmentDto.Notes
                 );
 
-            await _appointmentRepository.UpdateAsync(appointment, cancellationToken);
+            await _appointmentRepository.UpdateAsync(existingAppointment, cancellationToken);
         }
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {

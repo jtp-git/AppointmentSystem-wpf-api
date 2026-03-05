@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AppointmentSystem.App.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,7 @@ namespace AppointmentSystem.App.UserControls
         public AppointmentListView()
         {
             InitializeComponent();
+            DataContext = App.Services.GetService<AppointmentListViewModel>();
         }
     }
 }

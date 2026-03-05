@@ -6,26 +6,42 @@
              xmlns:local="clr-namespace:AppointmentSystem.App.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid >
-      <DataGrid ItemsSource="{Binding Appointments}" 
-                AutoGenerateColumns="False" 
-                IsReadOnly="True">
+    <Grid Margin="10">
+        <!-- Grid layout -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Load Button -->
+        <Button Content="Load Appointments"
+             Command="{Binding LoadAppointmentsCommand}"
+             Width="150"
+             Margin="0,0,0,10"
+             Grid.Row="0"/>
+
+        <!-- DataGrid -->
+
+        <DataGrid Grid.Row="1" 
+               ItemsSource="{Binding Appointments}"
+               AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" 
-                                    Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Patient" 
-                                    Binding="{Binding Patient}" />
+
+                <DataGridTextColumn Header="Name" 
+                                 Binding="{Binding Patient}" />
                 <DataGridTextColumn Header="Start Time" 
-                                    Binding="{Binding StartTime, StringFormat=t}" />
+                                 Binding="{Binding StartTime}" />
                 <DataGridTextColumn Header="End Time" 
-                                    Binding="{Binding EndTime, StringFormat=t}" />
-                <DataGridTextColumn Header="Notes" 
-                                    Binding="{Binding Notes}" />
-                <DataGridTextColumn Header="Date Created" 
-                                    Binding="{Binding DateCreated}" />
-                <DataGridTextColumn Header="Date Modified" 
-                                    Binding="{Binding DateModified}" />
+                                 Binding="{Binding EndTime}" />
+                <DataGridTextColumn Header="Notes"
+                                 Binding="{Binding Notes}" />
+                <DataGridTextColumn Header="Date Created"
+                                 Binding="{Binding DateCreated}" />
+                <DataGridTextColumn Header="Date Modified"
+                                 Binding="{Binding DateModified}" />
             </DataGrid.Columns>
         </DataGrid>
+
     </Grid>
+
 </UserControl>

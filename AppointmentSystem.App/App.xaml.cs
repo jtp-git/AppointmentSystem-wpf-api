@@ -21,7 +21,7 @@ namespace AppointmentSystem.App
 
             services.AddSingleton(new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7106/")
+                BaseAddress = new Uri("https://localhost:7029/")
             });
 
             services.AddSingleton<AppointmentApiService>();

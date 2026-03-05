@@ -13,8 +13,7 @@ namespace AppointmentSystem.App.ViewModels
     public class AppointmentListViewModel : BaseViewModel
     {
         private readonly AppointmentApiService _appointmentApiService;
-        public ObservableCollection<AppointmentDto> Appointments { get; } =
-            new();
+        public ObservableCollection<AppointmentDto> Appointments { get; } =  new();
 
         public ICommand LoadAppointmentsCommand { get; }
 
@@ -22,6 +21,7 @@ namespace AppointmentSystem.App.ViewModels
         {
             _appointmentApiService = appointmentApiService;
             LoadAppointmentsCommand = new Commands.RelayCommand(async _ => await LoadAppointmentsAsync());
+            _ = LoadAppointmentsAsync();
         }
 
         private async Task LoadAppointmentsAsync()

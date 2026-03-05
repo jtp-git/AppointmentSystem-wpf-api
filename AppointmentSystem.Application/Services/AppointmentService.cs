@@ -32,15 +32,22 @@ namespace AppointmentSystem.Application.Services
         public async Task<AppointmentDto> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             var appointment = await _appointmentRepository.GetByIdAsync(id, cancellationToken);
+            if (appointment == null)
+                throw new Exception($"Appointment with ID {id} not found.");
             return AppointmentMapper.toDto(appointment);
         }
         public async Task UpdateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken)
         {
             var appointment = AppointmentMapper.toEntity(appointmentDto);
+            if (appointment == null)
+                throw new Exception($"Appointment with ID {appointmentDto.Id} not found.");
             await _appointmentRepository.UpdateAsync(appointment, cancellationToken);
         }
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
+            var existingAppointment = await _appointmentRepository.GetByIdAsync(id, cancellationToken);
+            if (existingAppointment == null)
+                throw new Exception($"Appointment with ID {id} not found.");
             await _appointmentRepository.DeleteAsync(id, cancellationToken);
         }
     }

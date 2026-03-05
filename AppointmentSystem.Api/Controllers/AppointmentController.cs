@@ -9,9 +9,12 @@ namespace AppointmentSystem.Api.Controllers
     public class AppointmentController : Controller
     {
         private readonly IAppointmentService _appointmentService;
-        public AppointmentController(IAppointmentService appointmentService)
+        private readonly ILogger<AppointmentController> _logger;
+        public AppointmentController(IAppointmentService appointmentService, ILogger<AppointmentController> logger)
         {
             _appointmentService = appointmentService;
+            _logger = logger;
+
         }
         [HttpPost]
         public async Task<IActionResult> CreateAppointment(AppointmentDto dto, CancellationToken cancellationToken)
@@ -48,18 +51,43 @@ namespace AppointmentSystem.Api.Controllers
                 await _appointmentService.UpdateAsync(dto, cancellationToken);
                 return NoContent();
             }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(new { message = ex.Message });
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while updating the appointment.");
+                return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppointment(int id, CancellationToken cancellationToken)
         {
-            await _appointmentService.DeleteAsync(id, cancellationToken);
-            return NoContent();
+            try
+            {
+                await _appointmentService.DeleteAsync(id, cancellationToken);
+                return NoContent();
+
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while deleting the appointment.");
+                return StatusCode(500, "Internal server error");
+
+            }
         }
+
     }
-    
 }

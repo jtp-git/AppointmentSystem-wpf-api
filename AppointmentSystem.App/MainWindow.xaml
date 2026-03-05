@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppointmentSystem.App"
         mc:Ignorable="d"
+        xmlns:uc="clr-namespace:AppointmentSystem.App.UserControls"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <uc:AppointmentListView />
     </Grid>
 </Window>

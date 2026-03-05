@@ -1,11 +1,7 @@
 ﻿using AppointmentSystem.Application.DTO;
 using AppointmentSystem.Application.Interfaces;
 using AppointmentSystem.Application.Mapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace AppointmentSystem.Application.Services
 {

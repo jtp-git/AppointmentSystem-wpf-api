@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="UserControls\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AppointmentSystem.Application\AppointmentSystem.Application.csproj" />
   </ItemGroup>
 

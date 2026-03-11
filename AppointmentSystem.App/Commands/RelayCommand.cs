@@ -5,20 +5,30 @@ namespace AppointmentSystem.App.Commands
 {
     public class RelayCommand : ICommand
     {
-        private readonly Func<object?, Task>? _canExecute;
-        public RelayCommand(Func<object?, Task>? canExecute)
+        private readonly Func<Task> _execute;
+        private readonly Func<bool>? _canExecute;
+
+        public RelayCommand(Func<Task> execute, Func<bool>? canExecute = null)
         {
+            _execute = execute;
             _canExecute = canExecute;
         }
 
-        public event EventHandler? CanExecuteChanged;
-        public bool CanExecute(object? parameter) => true;
+        public bool CanExecute(object? parameter)
+        {
+            return _canExecute == null || _canExecute();
+        }
+
         public async void Execute(object? parameter)
         {
-            if (_canExecute != null)
-            {
-                await _canExecute(parameter);
-            }
+            await _execute();
+        }
+
+        public event EventHandler? CanExecuteChanged;
+
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

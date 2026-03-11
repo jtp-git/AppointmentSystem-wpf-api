@@ -7,16 +7,15 @@ namespace AppointmentSystem.Domain.Entities
         public string Patient { get;private set; }
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
-        public string Notes { get; private set; }
+        public string? Notes { get; private set; } = null;
         public DateTime DateCreated { get; private set; }
         public DateTime? DateModified { get;private set; }
 
-        public Appointment(){}
+      
 
-        public Appointment(string patient, DateTime startTime, DateTime endTime, string notes)
+        public Appointment(string patient, DateTime startTime, DateTime endTime, string? notes)
         {
-            if (endTime <= startTime)
-                throw new ArgumentException("End time must be after start time");
+           
             Patient = patient;
             StartTime = startTime;
             EndTime = endTime;
@@ -24,10 +23,9 @@ namespace AppointmentSystem.Domain.Entities
             DateCreated = DateTime.UtcNow;
         }
 
-        public void Update(string patient, DateTime startTime, DateTime endTime, string notes)
+        public void Update(string patient, DateTime startTime, DateTime endTime, string? notes)
         {
-            if (endTime <= startTime)
-                throw new ArgumentException("End time must be after start time");
+        
             Patient = patient;
             StartTime = startTime;
             EndTime = endTime;

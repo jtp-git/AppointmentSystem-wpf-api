@@ -2,11 +2,12 @@
 using AppointmentSystem.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace AppointmentSystem.Api.Controllers
 {
     [ApiController]
-    [Route("appointments")]
-    public class AppointmentController : Controller
+    [Route("api/v1/appointments")]
+    public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
         private readonly ILogger<AppointmentController> _logger;
@@ -17,18 +18,23 @@ namespace AppointmentSystem.Api.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> CreateAppointment(AppointmentDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAppointment(CreateAppointmentDto dto, CancellationToken cancellationToken)
         {
             try
             {
                 var createdAppointment = await _appointmentService.CreateAsync(dto, cancellationToken);
-                return CreatedAtAction(nameof(CreateAppointment),
+                return CreatedAtAction(nameof(GetAppointmentById),
                     new { id = createdAppointment.Id },
                     createdAppointment);
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating Appointment");
+                return StatusCode(500, "Internal server error");
             }
         }
 
@@ -38,13 +44,40 @@ namespace AppointmentSystem.Api.Controllers
             var appointments = await _appointmentService.GetAllAsync(cancellationToken);
             return Ok(appointments);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AppointmentDto>> GetAppointmentById(int id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var appointment = await _appointmentService.GetByIdAsync(id, cancellationToken);
 
+                if (appointment == null)
+                    return NotFound();
+
+                return Ok(appointment);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Appointment not found");
+                return NotFound(new { message = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving the appointment.");
+                return StatusCode(500, "Internal server error");
+            }
+           
+        }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppointment(int id, AppointmentDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAppointment(int id, UpdateAppointmentDto dto, CancellationToken cancellationToken)
         {
             if (id != dto.Id)
             {
-                return BadRequest("ID mismatch");
+                return BadRequest(new { message = "Route ID mismatch"});
             }
             try
             {
@@ -53,7 +86,7 @@ namespace AppointmentSystem.Api.Controllers
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogWarning(ex, "Appointment not found");
                 return NotFound(new { message = ex.Message });
             }
             catch (ArgumentException ex)
@@ -78,7 +111,7 @@ namespace AppointmentSystem.Api.Controllers
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex.Message);
+                _logger.LogWarning(ex, "Appointment not found");
                 return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)

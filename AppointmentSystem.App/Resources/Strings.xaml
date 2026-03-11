@@ -1,0 +1,21 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="LoadAppointments">Load Appointments</sys:String>
+    <sys:String x:Key="CreateAppointment">Create</sys:String>
+    <sys:String x:Key="UpdateAppointment">Update</sys:String>
+    <sys:String x:Key="DeleteAppointment">Delete</sys:String>
+
+
+    <sys:String x:Key="ColumnName">Patient</sys:String>
+    <sys:String x:Key="ColumnStartTime">Start Time</sys:String>
+    <sys:String x:Key="ColumnEndTime">End Time</sys:String>
+    <sys:String x:Key="ColumnNotes">Notes</sys:String>
+    <sys:String x:Key="ColumnDateCreated">Date Created</sys:String>
+    <sys:String x:Key="ColumnDateModified">Date Modified</sys:String>
+
+
+
+</ResourceDictionary>

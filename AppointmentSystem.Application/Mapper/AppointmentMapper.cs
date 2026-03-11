@@ -4,10 +4,10 @@ using AppointmentSystem.Domain.Entities;
 
 namespace AppointmentSystem.Application.Mapper
 {
-    public class AppointmentMapper
+    public static class AppointmentMapper
     {
 
-        public static AppointmentDto toDto(Appointment entity)
+        public static AppointmentDto ToDto(Appointment entity)
         {
             return new AppointmentDto
             {
@@ -21,13 +21,22 @@ namespace AppointmentSystem.Application.Mapper
             };
         }
 
-        public static Appointment toEntity(AppointmentDto dto)
+        public static void MapUpdate(UpdateAppointmentDto dto, Appointment entity)
         {
-            return new Appointment
-            (dto.Patient,
+            entity.Update(
+                dto.Patient, 
+                dto.StartTime, 
+                dto.EndTime, 
+                dto.Notes);
+        }
+        public static Appointment ToDomain(CreateAppointmentDto dto)
+        {
+            return new Appointment(
+                dto.Patient,
                 dto.StartTime,
                 dto.EndTime,
-                dto.Notes);
+                dto.Notes
+            );
 
         }
     }

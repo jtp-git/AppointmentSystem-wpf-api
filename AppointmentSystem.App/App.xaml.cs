@@ -1,9 +1,9 @@
-﻿using AppointmentSystem.App.Services;
+﻿using AppointmentSystem.App.Infrastructure;
+using AppointmentSystem.App.Services;
 using AppointmentSystem.App.ViewModels;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
-using System.Data;
-using System.Net.Http;
+using Microsoft.Extensions.Options;
 using System.Windows;
 
 namespace AppointmentSystem.App
@@ -13,24 +13,52 @@ namespace AppointmentSystem.App
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        public static IServiceProvider Services { get; private set; }
+        public static IServiceProvider Services { get; private set; } = null!;
 
-        protected override void OnStartup(StartupEventArgs e)
+        public App()
         {
             var services = new ServiceCollection();
 
-            services.AddSingleton(new HttpClient
-            {
-                BaseAddress = new Uri("https://localhost:7029/")
-            });
-
-            services.AddSingleton<AppointmentApiService>();
-            services.AddSingleton<AppointmentListViewModel>();
+            ConfigureServices(services);
 
             Services = services.BuildServiceProvider();
+        }
 
+        private void ConfigureServices(IServiceCollection services)
+        {
+            // Load configuration
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false)
+                .Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+
+            // Bind ApiSettings
+            services.Configure<ApiSettings>(configuration.GetSection("ApiSettings"));
+
+            // HttpClient configuration
+            services.AddHttpClient<IAppointmentApiService, AppointmentApiService>((provider, client) =>
+            {
+                var apiSettings = provider.GetRequiredService<IOptions<ApiSettings>>().Value;
+                client.BaseAddress = new Uri(apiSettings.BaseUrl);
+            });
+
+            // ViewModels
+            services.AddTransient<AppointmentListViewModel>();
+            services.AddSingleton<ViewModelLocator>();
+            // Views
+            services.AddTransient<MainWindow>();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
             base.OnStartup(e);
+
+            var mainWindow = Services.GetRequiredService<MainWindow>();
+            mainWindow.Show();
         }
     }
+    
 
 }

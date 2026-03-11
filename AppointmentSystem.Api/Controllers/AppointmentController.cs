@@ -6,7 +6,7 @@ namespace AppointmentSystem.Api.Controllers
 {
     [ApiController]
     [Route("appointments")]
-    public class AppointmentController : Controller
+    public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
         private readonly ILogger<AppointmentController> _logger;

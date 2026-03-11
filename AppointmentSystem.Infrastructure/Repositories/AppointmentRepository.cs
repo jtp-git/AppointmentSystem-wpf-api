@@ -20,7 +20,7 @@ namespace AppointmentSystem.Infrastructure.Repositories
             _appDbContext.Appointments.Add(appointment);
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
-        public async Task<List<Appointment>> GetAllAysnc(CancellationToken cancellationToken)
+        public async Task<List<Appointment>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _appDbContext.Appointments.ToListAsync(cancellationToken);
 

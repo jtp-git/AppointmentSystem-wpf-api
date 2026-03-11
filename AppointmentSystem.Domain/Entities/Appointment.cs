@@ -13,7 +13,7 @@ namespace AppointmentSystem.Domain.Entities
 
       
 
-        public Appointment(string patient, DateTime startTime, DateTime endTime, string notes)
+        public Appointment(string patient, DateTime startTime, DateTime endTime, string? notes)
         {
            
             Patient = patient;

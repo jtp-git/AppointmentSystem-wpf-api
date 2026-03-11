@@ -9,11 +9,12 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="1000">
-
+    
     <UserControl.DataContext>
         <infra:ViewModelLocatorExtension
-        ViewModelType="{x:Type vm:AppointmentListViewModel}" />
+       ViewModelType="{x:Type vm:AppointmentListViewModel}" />
     </UserControl.DataContext>
+
 
     <Grid Margin="10">
         <!-- Grid layout -->
@@ -63,6 +64,7 @@
                            VerticalAlignment="Center"/>
                 <DatePicker Grid.Column="3"
                             SelectedDate="{Binding AppointmentDate}"
+                            DisplayDateStart="{x:Static sys:DateTime.Today}"
                             Margin="5"/>
 
                 <!-- Start Time -->

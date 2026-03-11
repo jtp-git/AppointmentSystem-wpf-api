@@ -1,7 +1,7 @@
 ﻿using AppointmentSystem.Application.DTO;
 using AppointmentSystem.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
+
 
 namespace AppointmentSystem.Api.Controllers
 {

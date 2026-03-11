@@ -1,13 +1,9 @@
 ﻿using AppointmentSystem.App.Infrastructure;
 using AppointmentSystem.App.Services;
 using AppointmentSystem.App.ViewModels;
-using AppointmentSystem.Application.DTO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Configuration;
-using System.Data;
-using System.Net.Http;
 using System.Windows;
 
 namespace AppointmentSystem.App

@@ -4,7 +4,7 @@ using AppointmentSystem.Application.DTO;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml.Linq;
+
 
 namespace AppointmentSystem.App.ViewModels
 {

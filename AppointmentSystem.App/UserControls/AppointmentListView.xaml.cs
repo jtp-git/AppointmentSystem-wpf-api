@@ -1,5 +1,4 @@
-﻿using AppointmentSystem.App.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+﻿
 using System.Windows.Controls;
 
 namespace AppointmentSystem.App.UserControls

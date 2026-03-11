@@ -8,6 +8,7 @@ namespace AppointmentSystem.App.Services
     public class AppointmentApiService
     {
         private readonly HttpClient _httpClient;
+        private const string AppointmentEndpoint = "api/v1/appointments";
 
         public AppointmentApiService(HttpClient httpClient)
         {
@@ -16,7 +17,7 @@ namespace AppointmentSystem.App.Services
 
         public async Task<List<AppointmentDto>> GetAppointments(CancellationToken cancellation)
         {
-            var response = await _httpClient.GetAsync("appointments", cancellation);
+            var response = await _httpClient.GetAsync(AppointmentEndpoint, cancellation);
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync(cancellation);

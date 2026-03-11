@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:AppointmentSystem.App.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid Margin="10">
         <!-- Grid layout -->
         <Grid.RowDefinitions>
@@ -14,31 +15,31 @@
         </Grid.RowDefinitions>
 
         <!-- Load Button -->
-        <Button Content="Load Appointments"
-             Command="{Binding LoadAppointmentsCommand}"
-             Width="150"
-             Margin="0,0,0,10"
-             Grid.Row="0"/>
+        <Button Content="{StaticResource LoadAppointments}"
+                Command="{Binding LoadCommand}"
+                Width="150"
+                Margin="0,0,0,10"
+                Grid.Row="0"/>
 
         <!-- DataGrid -->
 
         <DataGrid Grid.Row="1" 
-               ItemsSource="{Binding Appointments}"
-               AutoGenerateColumns="False">
+                  ItemsSource="{Binding Appointments}"
+                  AutoGenerateColumns="False">
             <DataGrid.Columns>
 
-                <DataGridTextColumn Header="Name" 
-                                 Binding="{Binding Patient}" />
-                <DataGridTextColumn Header="Start Time" 
-                                 Binding="{Binding StartTime}" />
-                <DataGridTextColumn Header="End Time" 
-                                 Binding="{Binding EndTime}" />
-                <DataGridTextColumn Header="Notes"
-                                 Binding="{Binding Notes}" />
-                <DataGridTextColumn Header="Date Created"
-                                 Binding="{Binding DateCreated}" />
-                <DataGridTextColumn Header="Date Modified"
-                                 Binding="{Binding DateModified}" />
+                <DataGridTextColumn Header="{StaticResource ColumnName}" 
+                                    Binding="{Binding Patient}" />
+                <DataGridTextColumn Header="{StaticResource ColumnStartTime}" 
+                                    Binding="{Binding StartTime}" />
+                <DataGridTextColumn Header="{StaticResource ColumnEndTime}" 
+                                    Binding="{Binding EndTime}" />
+                <DataGridTextColumn Header="{StaticResource ColumnNotes}"
+                                    Binding="{Binding Notes}" />
+                <DataGridTextColumn Header="{StaticResource ColumnDateCreated}"
+                                    Binding="{Binding DateCreated}" />
+                <DataGridTextColumn Header="{StaticResource ColumnDateModified}"
+                                    Binding="{Binding DateModified}" />
             </DataGrid.Columns>
         </DataGrid>
 

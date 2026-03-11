@@ -7,12 +7,12 @@ namespace AppointmentSystem.App.ViewModels
 {
     public class AppointmentListViewModel : BaseViewModel
     {
-        private readonly AppointmentApiService _appointmentApiService;
+        private readonly IAppointmentApiService _appointmentApiService;
         public ObservableCollection<AppointmentDto> Appointments { get; } =  new();
 
         public ICommand LoadAppointmentsCommand { get; }
 
-        public AppointmentListViewModel(AppointmentApiService appointmentApiService)
+        public AppointmentListViewModel(IAppointmentApiService appointmentApiService)
         {
             _appointmentApiService = appointmentApiService;
             LoadAppointmentsCommand = new Commands.RelayCommand(async _ => await LoadAppointmentsAsync());
@@ -22,7 +22,7 @@ namespace AppointmentSystem.App.ViewModels
         private async Task LoadAppointmentsAsync()
         {
             using var cts = new CancellationTokenSource();
-            var list = await _appointmentApiService.GetAppointments(cts.Token);
+            var list = await _appointmentApiService.GetAppointmentsAsync(cts.Token);
             Appointments.Clear();
             foreach (var appointment in list)
             {

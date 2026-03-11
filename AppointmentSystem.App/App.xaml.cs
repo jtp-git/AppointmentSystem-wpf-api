@@ -6,6 +6,7 @@ using System.Data;
 using System.Net.Http;
 using System.Windows;
 
+
 namespace AppointmentSystem.App
 {
     /// <summary>
@@ -19,12 +20,12 @@ namespace AppointmentSystem.App
         {
             var services = new ServiceCollection();
 
-            services.AddSingleton(new HttpClient
+
+            services.AddHttpClient<IAppointmentApiService, AppointmentApiService>(client =>
             {
-                BaseAddress = new Uri("https://localhost:7029/")
+                client.BaseAddress = new Uri("https://localhost:7029/");
             });
 
-            services.AddSingleton<AppointmentApiService>();
             services.AddSingleton<AppointmentListViewModel>();
 
             Services = services.BuildServiceProvider();

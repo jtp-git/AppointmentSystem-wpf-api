@@ -17,12 +17,12 @@ namespace AppointmentSystem.Api.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> CreateAppointment(AppointmentDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAppointment(CreateAppointmentDto dto, CancellationToken cancellationToken)
         {
             try
             {
                 var createdAppointment = await _appointmentService.CreateAsync(dto, cancellationToken);
-                return CreatedAtAction(nameof(CreateAppointment),
+                return CreatedAtAction(nameof(GetAppointmentById),
                     new { id = createdAppointment.Id },
                     createdAppointment);
             }
@@ -49,7 +49,7 @@ namespace AppointmentSystem.Api.Controllers
             return Ok(appointment);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAppointment(int id, AppointmentDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAppointment(int id, UpdateAppointmentDto dto, CancellationToken cancellationToken)
         {
             if (id != dto.Id)
             {

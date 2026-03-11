@@ -8,9 +8,9 @@ namespace AppointmentSystem.Application.DTO
 {
     public class CreateAppointmentDto
     {
-        public string Patient { get; private set; } = null!;
-        public DateTime StartTime { get; private set; }
-        public DateTime EndTime { get; private set; }
-        public string? Notes { get; private set; } = null!;
+        public string Patient { get;  set; } = null!;
+        public DateTime StartTime { get;  set; }
+        public DateTime EndTime { get;  set; }
+        public string? Notes { get;  set; } = null!;
     }
 }

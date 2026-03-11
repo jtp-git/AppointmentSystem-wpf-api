@@ -4,10 +4,10 @@ namespace AppointmentSystem.Application.Interfaces
 {
     public interface IAppointmentService
     {
-        Task<AppointmentDto> CreateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken);
+        Task<AppointmentDto> CreateAsync(CreateAppointmentDto appointmentDto, CancellationToken cancellationToken);
         Task<List<AppointmentDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<AppointmentDto> GetByIdAsync(int id, CancellationToken cancellationToken);
-        Task UpdateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken);
+        Task UpdateAsync(UpdateAppointmentDto appointmentDto, CancellationToken cancellationToken);
         Task DeleteAsync(int id, CancellationToken cancellationToken);
     }
 }

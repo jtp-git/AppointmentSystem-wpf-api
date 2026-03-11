@@ -22,12 +22,12 @@ namespace AppointmentSystem.Infrastructure.Repositories
         }
         public async Task<List<Appointment>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await _appDbContext.Appointments.ToListAsync(cancellationToken);
+            return await _appDbContext.Appointments.AsNoTracking().ToListAsync(cancellationToken);
 
         }
-        public async Task<Appointment> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<Appointment?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await _appDbContext.Appointments.FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+            return await _appDbContext.Appointments.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
         }
         public async Task UpdateAsync(Appointment appointment, CancellationToken cancellationToken)
         {

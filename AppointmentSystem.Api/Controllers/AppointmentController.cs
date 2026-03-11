@@ -38,7 +38,16 @@ namespace AppointmentSystem.Api.Controllers
             var appointments = await _appointmentService.GetAllAsync(cancellationToken);
             return Ok(appointments);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AppointmentDto>> GetAppointmentById(int id, CancellationToken cancellationToken)
+        {
+            var appointment = await _appointmentService.GetByIdAsync(id, cancellationToken);
 
+            if (appointment == null)
+                return NotFound();
+
+            return Ok(appointment);
+        }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAppointment(int id, AppointmentDto dto, CancellationToken cancellationToken)
         {

@@ -4,6 +4,11 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:String x:Key="LoadAppointments">Load Appointments</sys:String>
+    <sys:String x:Key="CreateAppointment">Create</sys:String>
+    <sys:String x:Key="UpdateAppointment">Update</sys:String>
+    <sys:String x:Key="DeleteAppointment">Delete</sys:String>
+
+
     <sys:String x:Key="ColumnName">Patient</sys:String>
     <sys:String x:Key="ColumnStartTime">Start Time</sys:String>
     <sys:String x:Key="ColumnEndTime">End Time</sys:String>

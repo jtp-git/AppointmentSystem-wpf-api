@@ -9,40 +9,163 @@
 
     <Grid Margin="10">
         <!-- Grid layout -->
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Load Button -->
-        <Button Content="{StaticResource LoadAppointments}"
-                Command="{Binding LoadCommand}"
-                Width="150"
-                Margin="0,0,0,10"
-                Grid.Row="0"/>
+        <!-- ========================= -->
+        <!-- Appointment Form -->
+        <!-- ========================= -->
 
-        <!-- DataGrid -->
+        <Border Grid.Row="0"
+                Padding="15"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                CornerRadius="5"
+                Margin="0,0,0,10">
 
-        <DataGrid Grid.Row="1" 
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Name -->
+                <TextBlock Text="Patient"
+                           VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1"
+                         Text="{Binding Patient}"
+                         Margin="5"/>
+
+                <!-- Date -->
+                <TextBlock Grid.Column="2"
+                           Text="Date"
+                           VerticalAlignment="Center"/>
+                <DatePicker Grid.Column="3"
+                            SelectedDate="{Binding AppointmentDate}"
+                            Margin="5"/>
+
+                <!-- Start Time -->
+                <TextBlock Grid.Row="1"
+                           Text="Start Time"
+                           VerticalAlignment="Center"/>
+                <ComboBox Grid.Row="1"
+                          Grid.Column="1"
+                          ItemsSource="{Binding StartTimes}"
+                          SelectedItem="{Binding SelectedStartTime}"
+                          Margin="5"/>
+
+                <!-- End Time -->
+                <TextBlock Grid.Row="1"
+                           Grid.Column="2"
+                           Text="End Time"
+                           VerticalAlignment="Center"/>
+                <ComboBox Grid.Row="1"
+                          Grid.Column="3"
+                          ItemsSource="{Binding EndTimes}"
+                          SelectedItem="{Binding SelectedEndTime}"
+                          Margin="5"/>
+
+                <!-- Notes -->
+                <TextBlock Grid.Row="2"
+                           Text="Notes"
+                           VerticalAlignment="Top"/>
+
+                <TextBox Grid.Row="2"
+                         Grid.Column="1"
+                         Grid.ColumnSpan="3"
+                         Height="60"
+                         Margin="5"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         Text="{Binding Notes}"/>
+
+            </Grid>
+
+        </Border>
+
+        <!-- ========================= -->
+        <!-- CRUD Buttons -->
+        <!-- ========================= -->
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,10">
+
+            <Button Content="{StaticResource LoadAppointments}"
+                    Command="{Binding LoadAppointmentsCommand}"
+                    Width="140"
+                    Margin="0,0,10,0"/>
+
+            <Button Content="{StaticResource CreateAppointment}"
+                    Command="{Binding CreateCommand}"
+                    Width="120"
+                    Margin="0,0,10,0"/>
+
+            <Button Content="{StaticResource UpdateAppointment}"
+                    Command="{Binding UpdateCommand}"
+                    Width="120"
+                    Margin="0,0,10,0"/>
+
+            <Button Content="{StaticResource DeleteAppointment}"
+                    Command="{Binding DeleteCommand}"
+                    Width="120"/>
+
+        </StackPanel>
+
+        <!-- ========================= -->
+        <!-- Appointment List -->
+        <!-- ========================= -->
+
+        <DataGrid Grid.Row="2"
                   ItemsSource="{Binding Appointments}"
-                  AutoGenerateColumns="False">
+                  SelectedItem="{Binding SelectedAppointment, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  SelectionMode="Single"
+                  IsReadOnly="True">
+
             <DataGrid.Columns>
 
-                <DataGridTextColumn Header="{StaticResource ColumnName}" 
-                                    Binding="{Binding Patient}" />
-                <DataGridTextColumn Header="{StaticResource ColumnStartTime}" 
-                                    Binding="{Binding StartTime}" />
-                <DataGridTextColumn Header="{StaticResource ColumnEndTime}" 
-                                    Binding="{Binding EndTime}" />
-                <DataGridTextColumn Header="{StaticResource ColumnNotes}"
-                                    Binding="{Binding Notes}" />
-                <DataGridTextColumn Header="{StaticResource ColumnDateCreated}"
-                                    Binding="{Binding DateCreated}" />
-                <DataGridTextColumn Header="{StaticResource ColumnDateModified}"
-                                    Binding="{Binding DateModified}" />
-            </DataGrid.Columns>
-        </DataGrid>
+                <DataGridTextColumn Header="{StaticResource ColumnName}"
+                                    Binding="{Binding Patient}"
+                                    Width="150"/>
 
+                <DataGridTextColumn Header="{StaticResource ColumnStartTime}"
+                                    Binding="{Binding StartTime, StringFormat=yyyy-MM-dd HH:mm}"
+                                    Width="170"/>
+
+                <DataGridTextColumn Header="{StaticResource ColumnEndTime}"
+                                    Binding="{Binding EndTime, StringFormat=yyyy-MM-dd HH:mm}"
+                                    Width="170"/>
+
+                <DataGridTextColumn Header="{StaticResource ColumnNotes}"
+                                    Binding="{Binding Notes}"
+                                    Width="*"/>
+
+                <DataGridTextColumn Header="{StaticResource ColumnDateCreated}"
+                                    Binding="{Binding DateCreated, StringFormat=yyyy-MM-dd}"
+                                    Width="150"/>
+
+                <DataGridTextColumn Header="{StaticResource ColumnDateModified}"
+                                    Binding="{Binding DateModified, StringFormat=yyyy-MM-dd}"
+                                    Width="150"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
     </Grid>
 
 </UserControl>

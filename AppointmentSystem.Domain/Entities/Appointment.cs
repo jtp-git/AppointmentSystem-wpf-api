@@ -7,7 +7,7 @@ namespace AppointmentSystem.Domain.Entities
         public string Patient { get;private set; }
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
-        public string? Notes { get; private set; } = null!;
+        public string? Notes { get; private set; } = null;
         public DateTime DateCreated { get; private set; }
         public DateTime? DateModified { get;private set; }
 

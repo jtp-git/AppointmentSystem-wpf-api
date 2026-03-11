@@ -52,7 +52,11 @@ namespace AppointmentSystem.App.Services
                 throw new ArgumentException("End time must be greater than start time.");
             }
             var response = await _httpClient.PostAsJsonAsync(AppointmentEndpoint, dto, cancellationToken);
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync(cancellationToken);
+                throw new Exception($"API Error: {error}");
+            }
 
         }
 

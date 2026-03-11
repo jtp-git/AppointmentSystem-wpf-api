@@ -12,7 +12,7 @@ namespace AppointmentSystem.App.UserControls
         public AppointmentListView()
         {
             InitializeComponent();
-            DataContext = App.Services.GetService<AppointmentListViewModel>();
+
         }
     }
 }

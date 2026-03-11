@@ -28,6 +28,8 @@ namespace AppointmentSystem.App
             });
 
             services.AddSingleton<AppointmentListViewModel>();
+            services.AddSingleton<ViewModelLocator>();
+
 
             Services = services.BuildServiceProvider();
 

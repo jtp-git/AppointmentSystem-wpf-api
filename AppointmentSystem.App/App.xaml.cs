@@ -1,12 +1,14 @@
-﻿using AppointmentSystem.App.Services;
+﻿using AppointmentSystem.App.Infrastructure;
+using AppointmentSystem.App.Services;
 using AppointmentSystem.App.ViewModels;
 using AppointmentSystem.Application.DTO;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Configuration;
 using System.Data;
 using System.Net.Http;
 using System.Windows;
-
 
 namespace AppointmentSystem.App
 {
@@ -15,68 +17,52 @@ namespace AppointmentSystem.App
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        public static IServiceProvider Services { get; private set; }
+        public static IServiceProvider Services { get; private set; } = null!;
 
-        protected override async void OnStartup(StartupEventArgs e)
+        public App()
         {
             var services = new ServiceCollection();
 
-
-            services.AddHttpClient<IAppointmentApiService, AppointmentApiService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:7029/");
-            });
-
-            services.AddSingleton<AppointmentListViewModel>();
-            services.AddSingleton<ViewModelLocator>();
-
+            ConfigureServices(services);
 
             Services = services.BuildServiceProvider();
+        }
 
+        private void ConfigureServices(IServiceCollection services)
+        {
+            // Load configuration
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false)
+                .Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+
+            // Bind ApiSettings
+            services.Configure<ApiSettings>(configuration.GetSection("ApiSettings"));
+
+            // HttpClient configuration
+            services.AddHttpClient<IAppointmentApiService, AppointmentApiService>((provider, client) =>
+            {
+                var apiSettings = provider.GetRequiredService<IOptions<ApiSettings>>().Value;
+                client.BaseAddress = new Uri(apiSettings.BaseUrl);
+            });
+
+            // ViewModels
+            services.AddTransient<AppointmentListViewModel>();
+            services.AddSingleton<ViewModelLocator>();
+            // Views
+            services.AddTransient<MainWindow>();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
             base.OnStartup(e);
 
-
-            // TEMPORARY TEST
-            //var api = Services.GetRequiredService<IAppointmentApiService>();
-
-
-            //var appointment = await api.GetAppointmentByIdAsync(1, CancellationToken.None);
-
-            //if (appointment != null)
-            //{
-            //    MessageBox.Show($"Appointment: {appointment.Patient}");
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Appointment not found");
-            //}
-
-
-
-            //var dto = new CreateAppointmentDto
-            //{
-            //    Patient = "Create Test",
-            //    StartTime = DateTime.Now.AddHours(1),
-            //    EndTime = DateTime.Now.AddHours(2),
-            //    Notes = "Initial consultation"
-            //};
-
-            //await api.CreateAsync(dto, CancellationToken.None);
-
-            //MessageBox.Show("Appointment created successfully!");
-
-
-            //var appointment = await api.GetAppointmentByIdAsync(1, CancellationToken.None);
-
-            //if (appointment != null)
-            //{
-            //    MessageBox.Show($"Appointment Found: {appointment.Patient}");
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Appointment not found");
-            //}
+            var mainWindow = Services.GetRequiredService<MainWindow>();
+            mainWindow.Show();
         }
     }
+    
 
 }
